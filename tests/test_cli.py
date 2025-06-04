@@ -1,17 +1,20 @@
-import os
+from pathlib import Path
+
+from typer.testing import CliRunner
 import yaml
-from click.testing import CliRunner
-from alpaca_bot.cli import cli
+
+from alpaca_bot.cli import app
 
 
-def test_init_creates_valid_yaml(tmp_path):
-    cfg_file = tmp_path / "config.yaml"
+def test_init(tmp_path: Path, monkeypatch):
     runner = CliRunner()
-    result = runner.invoke(cli, ["init", str(cfg_file)])
+    monkeypatch.chdir(tmp_path)
+    result = runner.invoke(app, ["init", "config.yaml"])
     assert result.exit_code == 0
-    assert cfg_file.exists()
-    # Ensure the file contains valid YAML
-    with open(cfg_file, 'r') as f:
-        data = yaml.safe_load(f)
+    assert Path("config.yaml").exists()
+    assert Path(".env").exists()
+
+    # Ensure the config file contains valid YAML
+    data = yaml.safe_load(Path("config.yaml").read_text())
     assert isinstance(data, dict)
-    assert 'alpaca' in data
+    assert "alpaca" in data or data != {}

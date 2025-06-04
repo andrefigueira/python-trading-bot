@@ -1,11 +1,31 @@
+[project]
+name = "alpaca-bot"
+version = "0.1.0"
+description = "Async Alpaca trading bot"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = [
+    "typer[all]",
+    "pydantic",
+    "fastapi",
+    "httpx",
+    "websockets",
+    "pyyaml",
+]
+
+[project.scripts]
+alpaca-bot = "alpaca_bot.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q --cov=alpaca_bot"
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
-
-[project]
-name = "python-trading-bot"
-version = "0.1.0"
-dependencies = [
-    "click",
-    "pyyaml"
-]

@@ -1,24 +1,37 @@
-import click
+from __future__ import annotations
+
+from pathlib import Path
+
+import typer
 import yaml
 
-@click.group()
-def cli():
-    """Alpaca trading bot command line interface."""
-    pass
+from .config import Settings
 
-@cli.command()
-@click.argument('path', type=click.Path(dir_okay=False))
-def init(path):
-    """Create a default configuration file in YAML format."""
-    config = {
-        'alpaca': {
-            'key_id': 'YOUR_KEY_ID',
-            'secret_key': 'YOUR_SECRET_KEY'
-        }
-    }
-    with open(path, 'w') as f:
-        yaml.safe_dump(config, f)
-    click.echo(f"Configuration written to {path}")
+app = typer.Typer(name="alpaca-bot")
 
-if __name__ == '__main__':
-    cli()
+
+@app.command()
+def init(config_path: str = "config.yaml") -> None:
+    """Create default config and .env files."""
+    cfg = Settings()
+    path = Path(config_path)
+    path.write_text(yaml.safe_dump(cfg.model_dump(), sort_keys=False))
+    env = Path(".env")
+    if not env.exists():
+        env.write_text("ALPACA_KEY_ID=\nALPACA_SECRET_KEY=\n")
+    typer.echo(f"created {path} and .env")
+
+
+@app.command()
+def run(mode: str = "paper") -> None:
+    """Run the trading bot."""
+    settings = Settings.load()
+    typer.echo(f"running bot in {mode} mode with symbols {settings.execution.symbols}")
+
+
+def main() -> None:
+    app()
+
+
+if __name__ == "__main__":
+    main()
