@@ -55,6 +55,16 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
 
    Open `http://localhost:8000` for the dashboard (requires web extras).
 
+## Using the Makefile
+
+A `Makefile` automates common tasks:
+
+```bash
+make setup  # create virtual environment and install dependencies
+make run    # run the bot
+make test   # run the tests
+```
+
 ### Adding strategies
 
 Place Python files defining subclasses of `BaseStrategy` in `strategies/` and reference them under `strategies:` in `config.yaml`.
