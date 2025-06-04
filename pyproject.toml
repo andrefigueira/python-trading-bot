@@ -21,6 +21,7 @@ alpaca-bot = "alpaca_bot.cli:main"
 dev = [
     "pytest",
     "pytest-cov",
+    "ruff",
 ]
 
 [tool.pytest.ini_options]
@@ -29,3 +30,9 @@ addopts = "-q --cov=alpaca_bot"
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F"]

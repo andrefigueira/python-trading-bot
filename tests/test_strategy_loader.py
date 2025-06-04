@@ -7,7 +7,12 @@ def test_discover(tmp_path, monkeypatch):
     pkg.mkdir()
     (pkg / '__init__.py').write_text('')
     strategy_file = pkg / 's.py'
-    strategy_file.write_text('from alpaca_bot.strategy.base import BaseStrategy\nclass S(BaseStrategy):\n    def on_bar(self, bar):\n        return None\n')
+    strategy_file.write_text(
+        'from alpaca_bot.strategy.base import BaseStrategy\n'
+        'class S(BaseStrategy):\n'
+        '    def on_bar(self, bar):\n'
+        '        return None\n'
+    )
     sys.path.insert(0, str(tmp_path))
     monkeypatch.chdir(tmp_path)
     strategies = discover('pkg')

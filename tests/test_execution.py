@@ -1,4 +1,5 @@
 from decimal import Decimal
+import asyncio
 
 from alpaca_bot.execution.router import OrderRouter
 from alpaca_bot.execution.portfolio import Portfolio
@@ -12,7 +13,6 @@ class DummyClient:
         self.orders.append(order)
 
 
-import asyncio
 
 
 def test_order_router():

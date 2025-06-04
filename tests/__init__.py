@@ -1,4 +1,5 @@
-import sys, types
+import sys
+import types
 
 # Minimal pydantic stub to satisfy imports during tests
 pydantic = types.ModuleType('pydantic')
