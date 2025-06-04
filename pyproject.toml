@@ -1,15 +1,27 @@
-[tool.poetry]
-name = "python-trading-bot"
+[project]
+name = "alpaca-bot"
 version = "0.1.0"
-description = "An opensourced bot programmed in python for trading."
-authors = ["Your Name <you@example.com>"]
+description = "Async Alpaca trading bot"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = [
+    "typer[all]",
+    "pydantic",
+    "fastapi",
+    "httpx",
+    "websockets",
+    "pyyaml",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
+[project.scripts]
+alpaca-bot = "alpaca_bot.cli:main"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.0"
-pytest-cov = "^4.0"
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
 
 [tool.pytest.ini_options]
-addopts = "--cov=alpaca_bot"
+addopts = "-q --cov=alpaca_bot"
