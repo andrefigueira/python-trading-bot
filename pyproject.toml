@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "python-trading-bot"
+version = "0.1.0"
+description = "An opensourced bot programmed in python for trading."
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
+pytest-cov = "^4.0"
+
+[tool.pytest.ini_options]
+addopts = "--cov=alpaca_bot"
