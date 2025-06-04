@@ -63,6 +63,7 @@ A `Makefile` automates common tasks:
 make setup  # create virtual environment and install dependencies
 make run    # run the bot
 make test   # run the tests
+make lint   # run the Ruff linter
 ```
 
 ### Adding strategies

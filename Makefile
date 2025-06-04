@@ -26,7 +26,7 @@ test: $(VENV)/bin/activate
 	$(VENV)/bin/pytest
 
 lint: $(VENV)/bin/activate
-	$(VENV)/bin/ruff .
+	$(VENV)/bin/ruff check .
 
 clean:
 	rm -rf $(VENV)
