@@ -1,6 +1,6 @@
-pytest_plugins = ['pytest_cov']
-
 import pytest
+
+pytest_plugins = ['pytest_cov']
 
 @pytest.fixture(autouse=True)
 def alpaca_env(monkeypatch):
