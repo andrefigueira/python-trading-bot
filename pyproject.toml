@@ -8,6 +8,7 @@ license = {text = "MIT"}
 dependencies = [
     "typer[all]",
     "pydantic",
+    "pydantic-settings",
     "fastapi",
     "httpx",
     "websockets",

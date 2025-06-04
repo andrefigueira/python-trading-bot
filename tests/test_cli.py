@@ -18,7 +18,7 @@ def test_init(tmp_path: Path, monkeypatch):
 
     monkeypatch.setattr(yaml, "safe_dump", spy_safe_dump)
 
-    result = runner.invoke(app, ["init", "config.yaml"])
+    result = runner.invoke(app, ["init", "--config-path", "config.yaml"])
     assert result.exit_code == 0
     assert called["flag"] is True
     assert Path("config.yaml").exists()

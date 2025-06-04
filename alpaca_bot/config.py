@@ -3,12 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 from typing import List
 
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseModel, Field
+from pydantic_settings import BaseSettings
 
 
 class AlpacaSettings(BaseModel):
-    key_id: str = Field(..., env="ALPACA_KEY_ID")
-    secret_key: str = Field(..., env="ALPACA_SECRET_KEY")
+    key_id: str = Field(default="")
+    secret_key: str = Field(default="")
     base_url: str = "https://paper-api.alpaca.markets"
 
 
@@ -31,14 +32,15 @@ class RiskSettings(BaseModel):
 
 
 class Settings(BaseSettings):
-    alpaca: AlpacaSettings = AlpacaSettings()
-    execution: ExecutionSettings = ExecutionSettings()
-    risk: RiskSettings = RiskSettings()
+    alpaca: AlpacaSettings = Field(default_factory=AlpacaSettings)
+    execution: ExecutionSettings = Field(default_factory=ExecutionSettings)
+    risk: RiskSettings = Field(default_factory=RiskSettings)
     strategies: List[StrategyConfig] = []
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+    }
 
     @classmethod
     def load(cls, path: str | Path | None = None) -> "Settings":
