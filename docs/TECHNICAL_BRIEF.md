@@ -71,10 +71,11 @@ alpaca_bot/
 
 5. Quickstart (README excerpt)
 ------------------------------
-pipx install "alpaca-bot[web]"  
-alpaca-bot init  
-alpaca-bot run --mode paper  
-open http://localhost:8000  
+pipx install "alpaca-bot[web]"
+alpaca-bot init
+alpaca-bot run --mode paper
+# `[web]` installs `uvicorn` to serve the dashboard
+open http://localhost:8000
 
 6. Example config.yaml
 ----------------------

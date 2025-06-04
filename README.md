@@ -36,6 +36,7 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    ```bash
    pip install --editable .[web]
    ```
+   The `web` extras install `uvicorn` for the FastAPI dashboard.
 
 4. Initialise configuration:
 
