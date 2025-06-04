@@ -25,3 +25,7 @@ dev = [
 
 [tool.pytest.ini_options]
 addopts = "-q --cov=alpaca_bot"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

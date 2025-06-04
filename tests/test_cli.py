@@ -13,5 +13,8 @@ def test_init(tmp_path: Path, monkeypatch):
     assert result.exit_code == 0
     assert Path("config.yaml").exists()
     assert Path(".env").exists()
+
+    # Ensure the config file contains valid YAML
     data = yaml.safe_load(Path("config.yaml").read_text())
     assert isinstance(data, dict)
+    assert "alpaca" in data or data != {}
