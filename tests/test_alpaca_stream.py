@@ -4,9 +4,19 @@ from alpaca_bot.brokers.alpaca.stream import AlpacaStream
 from alpaca_bot.config import Settings
 
 
-class DummyWS(websockets.WebSocketClientProtocol):
+class DummyWS:
     def __init__(self, messages):
-        super().__init__(messages)
+        self.messages = messages
+        self.sent = []
+
+    async def send(self, msg):
+        self.sent.append(msg)
+
+    def __aiter__(self):
+        async def iterator():
+            for msg in self.messages:
+                yield msg
+        return iterator()
 
 
 def test_stream(monkeypatch):

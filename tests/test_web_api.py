@@ -1,13 +1,8 @@
-import asyncio
-
+from fastapi.testclient import TestClient
 from alpaca_bot.web.api import app
 
 
-async def call_health():
-    handler = app.routes['/health']
-    return await handler()
-
-
 def test_health_endpoint():
-    result = asyncio.run(call_health())
-    assert result == {'status': 'ok'}
+    client = TestClient(app)
+    resp = client.get("/health")
+    assert resp.json() == {"status": "ok"}
