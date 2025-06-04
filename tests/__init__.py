@@ -150,3 +150,33 @@ class AsyncClient:
 httpx.AsyncClient = AsyncClient
 httpx.Response = Response
 sys.modules.setdefault('httpx', httpx)
+
+# Minimal yaml stub
+yaml = types.ModuleType('yaml')
+
+def safe_dump(data, stream=None, sort_keys=False):
+    import json
+    text = json.dumps(data, indent=2)
+    if stream is not None:
+        stream.write(text)
+        return None
+    return text
+
+def safe_load(text):
+    import json
+    return json.loads(text)
+
+yaml.safe_dump = safe_dump
+yaml.safe_load = safe_load
+sys.modules.setdefault('yaml', yaml)
+
+# Minimal pytest-cov stub so --cov flag is accepted
+pytest_cov = types.ModuleType('pytest_cov')
+
+def pytest_addoption(parser):
+    parser.addoption('--cov', action='store', default=None)
+
+pytest_cov.pytest_addoption = pytest_addoption
+sys.modules.setdefault('pytest_cov', pytest_cov)
+
+pytest_plugins = ['pytest_cov']

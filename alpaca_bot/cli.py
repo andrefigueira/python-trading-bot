@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import typer
+import yaml
 
 from .config import Settings
 
@@ -14,7 +15,7 @@ def init(config_path: str = "config.yaml") -> None:
     """Create default config and .env files."""
     cfg = Settings()
     path = Path(config_path)
-    path.write_text(cfg.json(indent=2))
+    path.write_text(yaml.safe_dump(cfg.model_dump(), sort_keys=False))
     env = Path(".env")
     if not env.exists():
         env.write_text("ALPACA_KEY_ID=\nALPACA_SECRET_KEY=\n")

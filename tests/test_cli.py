@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from typer.testing import CliRunner
+import yaml
 
 from alpaca_bot.cli import app
 
@@ -12,3 +13,5 @@ def test_init(tmp_path: Path, monkeypatch):
     assert result.exit_code == 0
     assert Path("config.yaml").exists()
     assert Path(".env").exists()
+    data = yaml.safe_load(Path("config.yaml").read_text())
+    assert isinstance(data, dict)

@@ -11,10 +11,16 @@ dependencies = [
     "fastapi",
     "httpx",
     "websockets",
+    "pyyaml",
 ]
 
 [project.scripts]
 alpaca-bot = "alpaca_bot.cli:main"
 
 [tool.pytest.ini_options]
-addopts = "-q"
+addopts = "-q --cov=alpaca_bot"
+
+[project.optional-dependencies]
+dev = [
+    "pytest-cov",
+]
