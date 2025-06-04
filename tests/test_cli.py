@@ -9,8 +9,18 @@ from alpaca_bot.cli import app
 def test_init(tmp_path: Path, monkeypatch):
     runner = CliRunner()
     monkeypatch.chdir(tmp_path)
+    called = {"flag": False}
+    original_safe_dump = yaml.safe_dump
+
+    def spy_safe_dump(*args, **kwargs):
+        called["flag"] = True
+        return original_safe_dump(*args, **kwargs)
+
+    monkeypatch.setattr(yaml, "safe_dump", spy_safe_dump)
+
     result = runner.invoke(app, ["init", "config.yaml"])
     assert result.exit_code == 0
+    assert called["flag"] is True
     assert Path("config.yaml").exists()
     assert Path(".env").exists()
 
