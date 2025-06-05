@@ -12,9 +12,14 @@ poetry run pytest
 
 An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.md) for architecture details.
 
+## Requirements
+
+* Python 3.11 or newer must be installed. The `pyproject.toml` specifies
+  `requires-python = ">=3.11"` so earlier versions will fail during `make setup`.
+
 ## Quickstart (macOS)
 
-1. Install Python 3.11 via Homebrew:
+1. Install Python 3.11 or newer via Homebrew:
 
    ```bash
    brew install python@3.11
