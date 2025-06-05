@@ -28,3 +28,18 @@ def test_init(tmp_path: Path, monkeypatch):
     data = yaml.safe_load(Path("config.yaml").read_text())
     assert isinstance(data, dict)
     assert "alpaca" in data or data != {}
+
+
+def test_run_invokes_uvicorn(monkeypatch):
+    runner = CliRunner()
+    import uvicorn
+
+    called = {"flag": False}
+
+    def fake_run(*args, **kwargs):
+        called["flag"] = True
+
+    monkeypatch.setattr(uvicorn, "run", fake_run)
+    result = runner.invoke(app, ["run"])
+    assert result.exit_code == 0
+    assert called["flag"] is True

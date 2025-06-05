@@ -59,7 +59,7 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    alpaca-bot run --mode paper
    ```
 
-   Open `http://localhost:8000` for the dashboard (requires web extras).
+   The dashboard launches automatically at `http://localhost:8000` (requires web extras). Use `--no-ui` to disable.
 
 ## Using the Makefile
 
@@ -67,7 +67,7 @@ A `Makefile` automates common tasks:
 
 ```bash
 make setup  # create virtual environment and install dependencies
-make run    # run the bot
+make run    # run the bot and launch the dashboard
 make test   # run the tests
 make lint   # run the Ruff linter
 ```
