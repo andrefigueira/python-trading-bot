@@ -14,5 +14,5 @@ class BaseStrategy(ABC):
     indicators: Any
 
     @abstractmethod
-    def on_bar(self, bar: Any) -> List[Signal] | None:
+    def on_bar(self, bar: Any) -> List[Signal] | None:  # pragma: no cover - abstract
         raise NotImplementedError
