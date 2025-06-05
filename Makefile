@@ -1,6 +1,5 @@
 .PHONY: help setup run test lint clean
 
-PYTHON_VERSION = 3.11
 VENV = .venv
 PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
@@ -14,9 +13,7 @@ help:
 	@echo "  clean     - Remove virtual environment"
 
 $(VENV)/bin/activate:
-	pyenv install --skip-existing $(PYTHON_VERSION)
-	pyenv local $(PYTHON_VERSION)
-	python -m venv $(VENV)
+	python3 -m venv $(VENV)
 	$(PIP) install --upgrade pip
 	$(PIP) install -e .[dev,web]
 
