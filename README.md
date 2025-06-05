@@ -60,6 +60,9 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    alpaca-bot run --mode paper
    ```
 
+   The web dashboard starts automatically at `http://localhost:8000`. Pass
+   `--no-ui` to disable it.
+
    Use additional commands like `alpaca-bot set-symbols "AAPL,MSFT"` to update
    trading symbols. `alpaca-bot portfolio` shows the current balance and P&L,
    while `alpaca-bot orders` lists open, closed and pending orders.

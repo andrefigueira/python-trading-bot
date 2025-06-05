@@ -4,6 +4,7 @@ from pathlib import Path
 
 import typer
 import yaml
+import uvicorn
 
 from .config import Settings
 
@@ -61,12 +62,19 @@ def init(config_path: str = "config.yaml") -> None:
 
 
 @app.command()
-def run(mode: str = "paper") -> None:
+def run(
+    mode: str = "paper",
+    no_ui: bool = typer.Option(False, "--no-ui", help="Disable the web UI"),
+) -> None:
     """Run the trading bot."""
     settings = Settings.load()
     typer.echo(
         f"running bot in {mode} mode with symbols {settings.execution.symbols}"
     )
+    if not no_ui:
+        uvicorn.run(
+            "alpaca_bot.web.api:app", host="0.0.0.0", port=8000
+        )
 
 
 @app.command("set-symbols")

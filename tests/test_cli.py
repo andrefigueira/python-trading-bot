@@ -46,3 +46,16 @@ def test_portfolio_and_orders_commands():
     assert "Balance:" in result.output
     result = runner.invoke(app, ["orders"])
     assert "Open:" in result.output
+
+
+def test_run_starts_uvicorn(monkeypatch):
+    runner = CliRunner()
+    called = {"flag": False}
+
+    def fake_run(*args, **kwargs):
+        called["flag"] = True
+
+    monkeypatch.setattr("alpaca_bot.cli.uvicorn.run", fake_run)
+    result = runner.invoke(app, ["run"])
+    assert result.exit_code == 0
+    assert called["flag"] is True
