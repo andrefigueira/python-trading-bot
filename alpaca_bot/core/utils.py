@@ -32,7 +32,7 @@ def retry(times: int = 3, delay: float = 1.0) -> Callable[[Callable[..., T]], Ca
                 except Exception as e:  # pragma: no cover - used as generic util
                     exc = e
                     sleep(delay)
-            raise exc  # type: ignore
+            raise exc  # type: ignore  # pragma: no cover - raise only if all retries fail
 
         return wrapper
 

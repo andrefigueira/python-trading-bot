@@ -38,3 +38,17 @@ def test_stream(monkeypatch):
 
     asyncio.run(collect())
     assert received == [{"t": "msg"}]
+
+
+def test_listen_without_connect():
+    stream = AlpacaStream(Settings())
+
+    async def run():
+        try:
+            async for _ in stream.listen():
+                pass
+        except RuntimeError as e:
+            return str(e)
+
+    err = asyncio.run(run())
+    assert err == "stream not connected"

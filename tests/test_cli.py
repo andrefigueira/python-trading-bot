@@ -3,7 +3,7 @@ from pathlib import Path
 from typer.testing import CliRunner
 import yaml
 
-from alpaca_bot.cli import app, DEFAULT_CONFIG
+from alpaca_bot.cli import app, DEFAULT_CONFIG, ORDERS, main
 
 
 def test_init(tmp_path: Path, monkeypatch):
@@ -24,7 +24,6 @@ def test_init(tmp_path: Path, monkeypatch):
     assert Path("config.yaml").exists()
     assert Path(".env").exists()
 
-    # Ensure the config file contains valid YAML
     data = yaml.safe_load(Path("config.yaml").read_text())
     assert isinstance(data, dict)
     assert "alpaca" in data or data != {}
@@ -42,10 +41,11 @@ def test_set_symbols(tmp_path: Path, monkeypatch):
 
 def test_portfolio_and_orders_commands():
     runner = CliRunner()
+    ORDERS["open"] = ["1"]
+    result = runner.invoke(app, ["orders"])
+    assert "- 1" in result.output
     result = runner.invoke(app, ["portfolio"])
     assert "Balance:" in result.output
-    result = runner.invoke(app, ["orders"])
-    assert "Open:" in result.output
 
 
 def test_run_starts_uvicorn(monkeypatch):
@@ -58,4 +58,15 @@ def test_run_starts_uvicorn(monkeypatch):
     monkeypatch.setattr("alpaca_bot.cli.uvicorn.run", fake_run)
     result = runner.invoke(app, ["run"])
     assert result.exit_code == 0
+    assert called["flag"] is True
+
+
+def test_main_invokes_app(monkeypatch):
+    called = {"flag": False}
+
+    def fake_app():
+        called["flag"] = True
+
+    monkeypatch.setattr("alpaca_bot.cli.app", fake_app)
+    main()
     assert called["flag"] is True

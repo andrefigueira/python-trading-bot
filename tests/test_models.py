@@ -2,6 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 
 from alpaca_bot.core.models import Bar, Order, Fill
+from alpaca_bot.strategy.base import Signal
 
 
 def test_models():
@@ -13,3 +14,7 @@ def test_models():
 
     fill = Fill('1', datetime(2024, 1, 1), Decimal('1.2'), Decimal('10'))
     assert fill.price == Decimal('1.2')
+
+    signal = Signal('BUY', 0.5)
+    assert signal.side == 'BUY'
+    assert signal.qty_pct == 0.5
