@@ -62,7 +62,7 @@ alpaca_bot/
 
 4. Performance & Reliability
 ----------------------------
-• Fully async (`httpx`, `websockets`, `uvicorn`).  
+• Fully async (`httpx`, `websockets`).
 • Vectorised numpy/numba indicators.  
 • Order router uses idempotency keys & bulk submission.  
 • LRU cache for recent bars, Parquet for archival.  
@@ -71,11 +71,9 @@ alpaca_bot/
 
 5. Quickstart (README excerpt)
 ------------------------------
-pipx install "alpaca-bot[web]"
+pipx install "alpaca-bot"
 alpaca-bot init
 alpaca-bot run --mode paper
-# `[web]` installs `uvicorn` to serve the dashboard
-open http://localhost:8000
 
 6. Example config.yaml
 ----------------------

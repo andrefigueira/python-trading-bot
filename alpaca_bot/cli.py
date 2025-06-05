@@ -29,6 +29,9 @@ DEFAULT_CONFIG = {
 
 app = typer.Typer(name="alpaca-bot")
 
+PORTFOLIO = {"balance": 0.0, "pnl": 0.0}
+ORDERS = {"open": [], "closed": [], "pending": []}
+
 
 @app.command()
 def init(config_path: str = "config.yaml") -> None:
@@ -42,19 +45,40 @@ def init(config_path: str = "config.yaml") -> None:
 
 
 @app.command()
-def run(
-    mode: str = "paper",
-    no_ui: bool = typer.Option(False, '--no-ui', help='Run without starting the web UI'),
-) -> None:
+def run(mode: str = "paper") -> None:
     """Run the trading bot."""
     settings = Settings.load()
     typer.echo(
         f"running bot in {mode} mode with symbols {settings.execution.symbols}"
     )
-    if not no_ui:
-        import uvicorn
 
-        uvicorn.run("alpaca_bot.web.api:app", host="0.0.0.0", port=8000)
+
+@app.command("set-symbols")
+def set_symbols(symbols: str) -> None:
+    """Update trading symbols in config.yaml."""
+    settings = Settings.load()
+    parsed = [s.strip().upper() for s in symbols.split(",") if s.strip()]
+    settings.execution.symbols = parsed
+    Path("config.yaml").write_text(
+        yaml.safe_dump(settings.dict(), sort_keys=False)
+    )
+    typer.echo("symbols updated: " + ", ".join(parsed))
+
+
+@app.command()
+def portfolio() -> None:
+    """Display portfolio balance and P&L."""
+    typer.echo(f"Balance: {PORTFOLIO['balance']}")
+    typer.echo(f"P&L: {PORTFOLIO['pnl']}")
+
+
+@app.command()
+def orders() -> None:
+    """Show open, closed and pending orders."""
+    for key, vals in ORDERS.items():
+        typer.echo(key.capitalize() + ":")
+        for val in vals:
+            typer.echo(f"  - {val}")
 
 
 def main() -> None:

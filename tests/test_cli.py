@@ -3,7 +3,7 @@ from pathlib import Path
 from typer.testing import CliRunner
 import yaml
 
-from alpaca_bot.cli import app
+from alpaca_bot.cli import app, DEFAULT_CONFIG
 
 
 def test_init(tmp_path: Path, monkeypatch):
@@ -30,16 +30,19 @@ def test_init(tmp_path: Path, monkeypatch):
     assert "alpaca" in data or data != {}
 
 
-def test_run_invokes_uvicorn(monkeypatch):
+def test_set_symbols(tmp_path: Path, monkeypatch):
     runner = CliRunner()
-    import uvicorn
-
-    called = {"flag": False}
-
-    def fake_run(*args, **kwargs):
-        called["flag"] = True
-
-    monkeypatch.setattr(uvicorn, "run", fake_run)
-    result = runner.invoke(app, ["run"])
+    monkeypatch.chdir(tmp_path)
+    Path("config.yaml").write_text(yaml.safe_dump(DEFAULT_CONFIG, sort_keys=False))
+    result = runner.invoke(app, ["set-symbols", "TSLA,AMZN"])
     assert result.exit_code == 0
-    assert called["flag"] is True
+    data = yaml.safe_load(Path("config.yaml").read_text())
+    assert data["execution"]["symbols"] == ["TSLA", "AMZN"]
+
+
+def test_portfolio_and_orders_commands():
+    runner = CliRunner()
+    result = runner.invoke(app, ["portfolio"])
+    assert "Balance:" in result.output
+    result = runner.invoke(app, ["orders"])
+    assert "Open:" in result.output
