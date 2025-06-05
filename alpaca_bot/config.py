@@ -47,5 +47,8 @@ class Settings(BaseSettings):
         if path is None:
             path = Path("config.yaml")
         if Path(path).exists():
-            return cls.parse_file(path)
+            import yaml
+
+            data = yaml.safe_load(Path(path).read_text())
+            return cls(**data)
         return cls()

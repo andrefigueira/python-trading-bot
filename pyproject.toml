@@ -26,6 +26,8 @@ dev = [
 ]
 web = [
     "uvicorn",
+    "jinja2",
+    "python-multipart",
 ]
 
 [tool.pytest.ini_options]

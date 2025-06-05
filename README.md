@@ -60,6 +60,7 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    ```
 
    The dashboard launches automatically at `http://localhost:8000` (requires web extras). Use `--no-ui` to disable.
+   The homepage lets you configure symbols and displays your portfolio balance, P&L, and order lists.
 
 ## Using the Makefile
 
