@@ -36,12 +36,11 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    
    Linux: `source .venv/bin/activate`
 
-3. Install the package and optional web extras:
+3. Install the package:
 
    ```bash
-   pip install --editable .[web]
+   pip install --editable .
    ```
-   The `web` extras install `uvicorn` for the FastAPI dashboard.
 
 4. Initialise configuration:
 
@@ -49,7 +48,9 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    alpaca-bot init
    ```
 
-   This creates `config.yaml` and `.env`. Populate `.env` with your Alpaca keys.
+   This creates `config.yaml` and `.env`. Populate `.env` with your Alpaca keys
+   or any other settings (e.g. `EXECUTION_MODE=live`). Environment variables
+   override values in `config.yaml`.
 
 5. Edit `config.yaml` to choose symbols and strategies.
 
@@ -59,7 +60,12 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    alpaca-bot run --mode paper
    ```
 
-   Open `http://localhost:8000` for the dashboard (requires web extras).
+   The web dashboard starts automatically at `http://localhost:8000`. Pass
+   `--no-ui` to disable it.
+
+   Use additional commands like `alpaca-bot set-symbols "AAPL,MSFT"` to update
+   trading symbols. `alpaca-bot portfolio` shows the current balance and P&L,
+   while `alpaca-bot orders` lists open, closed and pending orders.
 
 ## Using the Makefile
 
