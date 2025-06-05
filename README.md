@@ -48,7 +48,9 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    alpaca-bot init
    ```
 
-   This creates `config.yaml` and `.env`. Populate `.env` with your Alpaca keys.
+   This creates `config.yaml` and `.env`. Populate `.env` with your Alpaca keys
+   or any other settings (e.g. `EXECUTION_MODE=live`). Environment variables
+   override values in `config.yaml`.
 
 5. Edit `config.yaml` to choose symbols and strategies.
 

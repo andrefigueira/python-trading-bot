@@ -40,7 +40,23 @@ def init(config_path: str = "config.yaml") -> None:
     path.write_text(yaml.safe_dump(DEFAULT_CONFIG, sort_keys=False))
     env = Path(".env")
     if not env.exists():
-        env.write_text("ALPACA_KEY_ID=\nALPACA_SECRET_KEY=\n")
+        env.write_text(
+            "\n".join(
+                [
+                    "ALPACA_KEY_ID=",
+                    "ALPACA_SECRET_KEY=",
+                    "ALPACA_BASE_URL=https://paper-api.alpaca.markets",
+                    "EXECUTION_MODE=paper",
+                    "EXECUTION_SYMBOLS=AAPL",
+                    "EXECUTION_NOTIONAL_MAX=25000",
+                    "EXECUTION_TIMEZONE=America/New_York",
+                    "RISK_MAX_DRAWDOWN_PCT=10",
+                    "RISK_MAX_POSITION_PCT=30",
+                    "RISK_MIN_EQUITY_BUFFER_PCT=5",
+                ]
+            )
+            + "\n"
+        )
     typer.echo(f"created {path} and .env")
 
 
