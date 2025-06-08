@@ -84,7 +84,7 @@ def set_symbols(symbols: str) -> None:
     parsed = [s.strip().upper() for s in symbols.split(",") if s.strip()]
     settings.execution.symbols = parsed
     Path("config.yaml").write_text(
-        yaml.safe_dump(settings.dict(), sort_keys=False)
+        yaml.safe_dump(settings.model_dump(), sort_keys=False)
     )
     typer.echo("symbols updated: " + ", ".join(parsed))
 
@@ -110,4 +110,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main()  # pragma: no cover - CLI entry point
