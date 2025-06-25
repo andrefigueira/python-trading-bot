@@ -105,6 +105,14 @@ def orders() -> None:
             typer.echo(f"  - {val}")
 
 
+@app.command()
+def tui() -> None:
+    """Start the interactive text UI."""
+    from .tui import run as run_tui
+
+    run_tui()
+
+
 def main() -> None:
     app()
 
