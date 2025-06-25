@@ -48,31 +48,32 @@ def test_rsi_reversion():
     assert sigs and sigs[0].side == "SELL"
 
 def test_momentum_scalper():
-    scalper = MomentumScalper()
-    sigs = scalper.on_bar(make_bar(1, 2))
+    scalper = MomentumScalper(period=2)
+    scalper.on_bar(make_bar(1, 1))
+    scalper.on_bar(make_bar(2, 2))
+    sigs = scalper.on_bar(make_bar(3, 3))
     assert sigs and sigs[0].side == "BUY"
-    sigs = scalper.on_bar(make_bar(2, 1))
+    sigs = scalper.on_bar(make_bar(1, 1))
     assert sigs and sigs[0].side == "SELL"
-    assert scalper.on_bar(make_bar(1, 1)) is None
 
 
 def test_swing_breakout():
-    swing = SwingBreakout(window=2)
+    swing = SwingBreakout(window=2, ma_period=3)
     swing.on_bar(make_bar(1, 1, high=1, low=1))
     swing.on_bar(make_bar(2, 2, high=2, low=2))
     sigs = swing.on_bar(make_bar(3, 3, high=3, low=3))
     assert sigs and sigs[0].side == "BUY"
 
-    swing = SwingBreakout(window=2)
+    swing = SwingBreakout(window=2, ma_period=3)
+    swing.on_bar(make_bar(3, 3, high=3, low=3))
     swing.on_bar(make_bar(2, 2, high=2, low=2))
-    swing.on_bar(make_bar(1, 1, high=1, low=1))
-    sigs = swing.on_bar(make_bar(0, 0, high=0, low=0))
+    sigs = swing.on_bar(make_bar(1, 1, high=1, low=1))
     assert sigs and sigs[0].side == "SELL"
 
 
 def test_composite_strategy():
     ma = MovingAverageCross(fast=2, slow=3)
-    scalp = MomentumScalper()
+    scalp = MomentumScalper(period=2)
     comp = CompositeStrategy([ma, scalp])
     comp.on_bar(make_bar(1, 1))
     comp.on_bar(make_bar(2, 2))

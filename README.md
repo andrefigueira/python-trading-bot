@@ -87,8 +87,8 @@ This repository provides several example strategies ready to use:
 
 * `strategies.moving_average.MovingAverageCross` – simple moving average crossover
 * `strategies.rsi_reversion.RSIReversion` – buys when RSI is oversold and sells when overbought
-* `strategies.scalping.MomentumScalper` – trades bar-to-bar momentum for quick scalps
-* `strategies.swing.SwingBreakout` – swing strategy buying breakouts and selling breakdowns
+* `strategies.scalping.MomentumScalper` – uses a short-term moving average to scalp momentum
+* `strategies.swing.SwingBreakout` – breakout strategy with a trend filter for swing trades
 * `strategies.composite.CompositeStrategy` – combine multiple strategies together
 
 Use them in your `config.yaml` like so:
@@ -100,6 +100,7 @@ strategies:
   - name: strategies.rsi_reversion.RSIReversion
     params: {period: 14}
   - name: strategies.scalping.MomentumScalper
+    params: {period: 5}
 ```
 
 ### Tests and coverage
