@@ -2,13 +2,14 @@
 
 ## Running tests with coverage
 
-Run the test suite with Poetry to automatically generate a coverage report. The `pyproject.toml`
-configuration enables the `pytest-cov` plugin to collect coverage for the `alpaca_bot` package.
+Install the development dependencies and run the test suite to generate a
+coverage report. The `pyproject.toml` configuration already enables the
+`pytest-cov` plugin to collect coverage for the `alpaca_bot` package.
 
 ```bash
-poetry run pytest
+pip install -e .[dev]
+pytest
 ```
-=======
 
 An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.md) for architecture details.
 
@@ -66,6 +67,7 @@ An async trading bot framework. See the [technical brief](docs/TECHNICAL_BRIEF.m
    Use additional commands like `alpaca-bot set-symbols "AAPL,MSFT"` to update
    trading symbols. `alpaca-bot portfolio` shows the current balance and P&L,
    while `alpaca-bot orders` lists open, closed and pending orders.
+   Launch `alpaca-bot tui` for an interactive text interface.
 
 ## Using the Makefile
 
@@ -81,6 +83,24 @@ make lint   # run the Ruff linter
 ### Adding strategies
 
 Place Python files defining subclasses of `BaseStrategy` in `strategies/` and reference them under `strategies:` in `config.yaml`.
+This repository provides several example strategies ready to use:
+
+* `strategies.moving_average.MovingAverageCross` – simple moving average crossover
+* `strategies.rsi_reversion.RSIReversion` – buys when RSI is oversold and sells when overbought
+* `strategies.scalping.MomentumScalper` – trades bar-to-bar momentum for quick scalps
+* `strategies.swing.SwingBreakout` – swing strategy buying breakouts and selling breakdowns
+* `strategies.composite.CompositeStrategy` – combine multiple strategies together
+
+Use them in your `config.yaml` like so:
+
+```yaml
+strategies:
+  - name: strategies.moving_average.MovingAverageCross
+    params: {fast: 5, slow: 20}
+  - name: strategies.rsi_reversion.RSIReversion
+    params: {period: 14}
+  - name: strategies.scalping.MomentumScalper
+```
 
 ### Tests and coverage
 
