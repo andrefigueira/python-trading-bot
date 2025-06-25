@@ -49,23 +49,28 @@ def test_rsi_reversion():
 
 def test_momentum_scalper():
     scalper = MomentumScalper(period=2)
+    # Rising prices with strong momentum trigger a buy
     scalper.on_bar(make_bar(1, 1))
     scalper.on_bar(make_bar(2, 2))
-    sigs = scalper.on_bar(make_bar(3, 3))
+    sigs = scalper.on_bar(make_bar(4, 4))
     assert sigs and sigs[0].side == "BUY"
+
+    # Falling prices with weak momentum trigger a sell
     sigs = scalper.on_bar(make_bar(1, 1))
     assert sigs and sigs[0].side == "SELL"
 
 
 def test_swing_breakout():
-    swing = SwingBreakout(window=2, ma_period=3)
+    swing = SwingBreakout(window=2, ma_period=3, rsi_period=3)
     swing.on_bar(make_bar(1, 1, high=1, low=1))
-    swing.on_bar(make_bar(2, 2, high=2, low=2))
-    sigs = swing.on_bar(make_bar(3, 3, high=3, low=3))
+    swing.on_bar(make_bar(3, 3, high=3, low=3))
+    swing.on_bar(make_bar(5, 5, high=5, low=5))
+    sigs = swing.on_bar(make_bar(6, 6, high=6, low=6))
     assert sigs and sigs[0].side == "BUY"
 
-    swing = SwingBreakout(window=2, ma_period=3)
-    swing.on_bar(make_bar(3, 3, high=3, low=3))
+    swing = SwingBreakout(window=2, ma_period=3, rsi_period=3)
+    swing.on_bar(make_bar(6, 6, high=6, low=6))
+    swing.on_bar(make_bar(4, 4, high=4, low=4))
     swing.on_bar(make_bar(2, 2, high=2, low=2))
     sigs = swing.on_bar(make_bar(1, 1, high=1, low=1))
     assert sigs and sigs[0].side == "SELL"
@@ -77,5 +82,5 @@ def test_composite_strategy():
     comp = CompositeStrategy([ma, scalp])
     comp.on_bar(make_bar(1, 1))
     comp.on_bar(make_bar(2, 2))
-    sigs = comp.on_bar(make_bar(2, 3))
+    sigs = comp.on_bar(make_bar(2, 4))
     assert len(sigs) == 2
